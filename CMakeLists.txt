@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.0)
+project(hash-code-genetic)
+file(GLOB_RECURSE sources src/*.cpp src/*.h)
+add_executable(hash-code-genetic ${sources})
+target_compile_options(hash-code-genetic PUBLIC -std=c++14 -Wall -O3)
+target_include_directories(hash-code-genetic PUBLIC src)

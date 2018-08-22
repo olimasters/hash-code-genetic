@@ -30,3 +30,12 @@
 *.exe
 *.out
 *.app
+
+# Cmake stuff
+CMakeCache.txt
+CMakeFiles
+*.cmake
+Makefile
+
+# Editor stuff
+*.swp
