@@ -24,10 +24,16 @@ unsigned Chromosome::pickGene(unsigned motherGene, unsigned fatherGene)
     return coinFlipDistribution(randomNumberEngine) == 0 ? motherGene : fatherGene;
 }
 
-unsigned Chromosome::getGene(unsigned position)
+unsigned Chromosome::getGene(unsigned position) const
 {
     return data[position];
 }
+
+std::vector<unsigned> Chromosome::getData() const
+{
+    return data;
+}
+
 
 Chromosome Chromosome::operator*(const chromosome &mother, const chromosome &father)
 {
