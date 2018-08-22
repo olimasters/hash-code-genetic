@@ -39,3 +39,6 @@ Makefile
 
 # Editor stuff
 *.swp
+
+# Input data not to be committed
+data
