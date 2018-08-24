@@ -6,12 +6,13 @@ class Chromosome
 {
     public:
         Chromosome(unsigned numberOfGenes, unsigned numberOfGeneValues, bool randomlyInitialise = true);
-        ~Chromosome();
+        Chromosome operator*(const Chromosome &otherParent);
         void setGene(unsigned gene, unsigned position);
         unsigned getGene(unsigned position) const;
         std::vector<unsigned> getData() const;
     private:
         unsigned generateGene();
+        unsigned pickGene(unsigned motherGene, unsigned fatherGene);
 
         unsigned numberOfGenes;
         unsigned numberOfGeneValues;

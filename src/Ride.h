@@ -1,3 +1,4 @@
+#include <Coordinate.h>
 #ifndef RIDE_H
 #define RIDE_H
 struct Ride

@@ -11,7 +11,7 @@ Chromosome::Chromosome(unsigned numberOfGenes, unsigned numberOfGeneValues, bool
 {
     if(randomlyInitialise)
         for(unsigned i = 0; i < numberOfGenes; ++i)
-            data.push_back(generateGene());
+            data[i] = generateGene();
 }
 
 unsigned Chromosome::generateGene()
@@ -29,19 +29,24 @@ unsigned Chromosome::getGene(unsigned position) const
     return data[position];
 }
 
+void Chromosome::setGene(unsigned gene, unsigned position)
+{
+    data[position] = gene;
+}
+
 std::vector<unsigned> Chromosome::getData() const
 {
     return data;
 }
 
 
-Chromosome Chromosome::operator*(const chromosome &mother, const chromosome &father)
+Chromosome Chromosome::operator*(const Chromosome &otherParent)
 {
     Chromosome child(numberOfGenes, numberOfGeneValues, false);
-    for(unsigned i = 0; i < numberOfGenes; i++)]
+    for(unsigned position = 0; position < numberOfGenes; position++)
     {
-        unsigned gene = pickGene(mother.getGene(i), father.getGene(i));
-        child.setGene(gene);
+        unsigned gene = pickGene(getGene(position), otherParent.getGene(position));
+        child.setGene(gene, position);
     }
     return child;
 }

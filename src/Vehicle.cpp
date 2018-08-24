@@ -1,16 +1,28 @@
 #include <Vehicle.h>
+#include <Ride.h>
+#include <vector>
 
-Vehicle::Vehicle(std::vector<Ride> ridesToPerform) :
+Vehicle::Vehicle(std::vector<Ride> ridesToPerform, unsigned T) :
     pendingRides(ridesToPerform),
     T(T),
     currentTime(0),
-    currentPosition(0,0),
+    currentPosition(0,0)
 {
+}
+
+std::vector<Ride> Vehicle::getLateCompletedRides() const
+{
+    return lateCompletedRides;
+}
+
+std::vector<Ride> Vehicle::getTimelyRides() const
+{
+    return timelyRides;
 }
 
 void Vehicle::waitForDeparture()
 {
-    unsigned startTime = pendingRides.back().startPosition;
+    unsigned startTime = pendingRides.back().earliestStart;
     if(currentTime < startTime)
         currentTime = startTime;
 }

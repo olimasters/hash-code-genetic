@@ -1,15 +1,32 @@
 #include <fstream>
 #include <iostream>
-#include <InputUtils.h>
+#include <Utils.h>
+
+// testing
+#include <Chromosome.h>
+#include <Scorer.h>
+#include <Ride.h>
 
 int main(int argc, char *argv[])
 {
-    std::string inputFilename("test.in");
-    std::ifstream inputFile;
-    inputFile.exceptions(std::ifstream::badbit);
-    inputFile.open(inputFilename);
-    std::vector<unsigned> numbers(getLineOfIntegers(inputFile));
-    for(const auto num : numbers)
-        std::cout << num << std::endl;
+    if(argc != 2)
+    {
+        fprintf(stderr, "Usage: %s <input filepath>\n", argv[0]);
+        return 1;
+    }
+    Scorer scorer(createScorerFromFile(argv[1]));
+
     return 0;
 }
+
+/* Test stuff
+    std::vector<Ride> rides{ {0,0,1,3,2,9}, {1,2,1,0,0,9}, {2,0,2,2,0,9} };
+    Scorer scorer(3, 4, 2, 3, 2, 10, rides);
+    Chromosome chromosome(3, 2);
+    // set up the chromosome
+    chromosome.setGene(0,0);
+    chromosome.setGene(1,1);
+    chromosome.setGene(1,2);
+
+    std::cout << scorer.getFitness(chromosome) << std::endl;
+    */

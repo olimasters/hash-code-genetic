@@ -1,3 +1,6 @@
+#include <vector>
+#include <Ride.h>
+
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
@@ -11,7 +14,7 @@ class Vehicle
     private:
         void waitForDeparture();
         void registerRide(bool startedOnTime);
-        void moveToPosition();
+        void moveToPosition(const Coordinate &destination);
 
         std::vector<Ride> pendingRides;
         std::vector<Ride> lateCompletedRides;

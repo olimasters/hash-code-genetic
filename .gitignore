@@ -42,3 +42,6 @@ Makefile
 
 # Input data not to be committed
 data
+
+# Executable name
+hash-code-genetic

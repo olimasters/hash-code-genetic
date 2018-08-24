@@ -1,5 +1,6 @@
 #include <Utils.h>
 #include <iostream>
+#include <fstream>
 #include <vector>
 
 std::vector<unsigned int> getLineOfIntegers(std::istream &is)
