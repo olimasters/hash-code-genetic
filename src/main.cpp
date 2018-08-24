@@ -1,8 +1,10 @@
 #include <fstream>
 #include <iostream>
 #include <Utils.h>
+#include <GeneticAlgorithm.h>
 
 // testing
+
 #include <Chromosome.h>
 #include <Scorer.h>
 #include <Ride.h>
@@ -15,7 +17,10 @@ int main(int argc, char *argv[])
         return 1;
     }
     Scorer scorer(createScorerFromFile(argv[1]));
-
+    unsigned generations = 100;
+    // TODO: consider what are sensible parameters
+    GeneticAlgorithm algorithm(scorer, generations, 150, 50, 10, 4);
+    Chromosome bestChromosome = algorithm.run();
     return 0;
 }
 
