@@ -40,6 +40,7 @@ std::vector<Chromosome> GeneticAlgorithm::selectMatingPopulation()
     std::vector<std::pair<Chromosome, unsigned>> populationWithFitness;
     populationWithFitness.reserve(populationSize);
 
+    // TODO: use C++17 and std::execution::par, this will speed up hugely
     std::transform(currentPopulation.begin(),
             currentPopulation.end(),
             std::back_inserter(populationWithFitness),

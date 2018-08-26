@@ -37,10 +37,7 @@ unsigned Scorer::getScore(const std::vector<Ride> &lateCompletedRides, const std
     std::transform(lateCompletedRides.begin(), lateCompletedRides.end(), std::back_inserter(lateScores), getDistance);
     std::transform(timelyRides.begin(), timelyRides.end(), std::back_inserter(timelyScores), getDistance);
     
-    // TODO: something that works
-    // return (std::reduce(lateScores.begin(), lateScores.end()) +
-            // std::reduce(timelyScores.begin(), timelyScores.end()) +
-            // timelyScores.size()*B);
+    // TODO: C++17 it and use std::reduce
     return (std::accumulate(lateScores.begin(), lateScores.end(), 0) +
             std::accumulate(timelyScores.begin(), timelyScores.end(), 0) +
             timelyScores.size()*B);
