@@ -11,8 +11,8 @@ class GeneticAlgorithm
         const Scorer &scorer;
         unsigned generationsRemaining;
         unsigned populationSize;
-        unsigned chromosomeSize;
-        unsigned chromosomeValues;
+        unsigned numberOfGenes;
+        unsigned numberOfGeneBuckets;
         unsigned matingPopulationSize;
         double mutationRate;
         std::vector<Chromosome> currentPopulation;

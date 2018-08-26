@@ -2,12 +2,12 @@
 #include <iostream>
 #include <algorithm>
 
-GeneticAlgorithm::GeneticAlgorithm(const Scorer &scorer, double mutationRate, unsigned generations, unsigned populationSize, unsigned matingPopulationSize, unsigned chromosomeSize, unsigned chromosomeValues) :
+GeneticAlgorithm::GeneticAlgorithm(const Scorer &scorer, double mutationRate, unsigned generations, unsigned populationSize, unsigned matingPopulationSize, unsigned numberOfGenes, unsigned numberOfGeneBuckets) :
     scorer(scorer),
     generationsRemaining(generations),
     populationSize(populationSize),
-    chromosomeSize(chromosomeSize),
-    chromosomeValues(chromosomeValues),
+    numberOfGenes(numberOfGenes),
+    numberOfGeneBuckets(numberOfGeneBuckets),
     matingPopulationSize(matingPopulationSize),
     mutationRate(mutationRate)
 {
@@ -17,7 +17,7 @@ GeneticAlgorithm::GeneticAlgorithm(const Scorer &scorer, double mutationRate, un
 void GeneticAlgorithm::initialisePopulation()
 {
     // Make sure we call the constructor for each one to get a population of randomly-initialised chromosomes
-    std::generate_n(std::back_inserter(currentPopulation), populationSize, [&](){return Chromosome(chromosomeSize, chromosomeValues);});
+    std::generate_n(std::back_inserter(currentPopulation), populationSize, [&](){return Chromosome(numberOfGenes, numberOfGeneBuckets);});
 }
 
 Chromosome GeneticAlgorithm::run()
@@ -60,9 +60,11 @@ void GeneticAlgorithm::breedNewPopulation(std::vector<Chromosome> &matingPopulat
 {
     currentPopulation.clear();
     while(1)
-        for(unsigned i = 0; i < matingPopulationSize - 1; i++)
-            for(unsigned j = i + 1; j < matingPopulationSize; j++)
-                if(currentPopulation.size() < populationSize)
+        for(unsigned i = 0; i < matingPopulationSize; i++)
+            for(unsigned j = 0; j < matingPopulationSize; j++)
+                if(i == j)
+                        continue;
+                else if(currentPopulation.size() < populationSize)
                 {
                     Chromosome mutant{matingPopulation[i] * matingPopulation[j]};
                     mutant.mutate(mutationRate);

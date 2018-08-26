@@ -17,6 +17,7 @@ class Scorer
     private:
         std::vector<std::vector<Ride>> assignmentToSetOfRideLists(std::vector<unsigned> assignment) const;
         unsigned getScore (const std::vector<Ride> &lateCompletedRides, const std::vector<Ride> &timelyRides) const;
+        std::vector<std::vector<Ride>> makeVehicleTable(const std::vector<std::vector<unsigned>> bucketsOfIndices) const;
         unsigned R;
         unsigned C;
         unsigned F;

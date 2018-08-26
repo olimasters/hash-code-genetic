@@ -17,7 +17,7 @@ Scorer::Scorer(unsigned R, unsigned C, unsigned F, unsigned N, unsigned B, unsig
 }
 unsigned Scorer::getFitness(const Chromosome &chromosome) const
 {
-    std::vector<std::vector<Ride>> vehicleAllocationTable(assignmentToSetOfRideLists(chromosome.getData()));
+    std::vector<std::vector<Ride>> vehicleAllocationTable(makeVehicleTable(chromosome.getData()));
 
     unsigned fitness = 0;
     for(const auto &ridesAllottedToVehicle : vehicleAllocationTable)
@@ -41,6 +41,26 @@ unsigned Scorer::getScore(const std::vector<Ride> &lateCompletedRides, const std
     return (std::accumulate(lateScores.begin(), lateScores.end(), 0) +
             std::accumulate(timelyScores.begin(), timelyScores.end(), 0) +
             timelyScores.size()*B);
+}
+
+std::vector<std::vector<Ride>> Scorer::makeVehicleTable(const std::vector<std::vector<unsigned>> bucketsOfIndices) const
+{
+    std::vector<std::vector<Ride>> vehicleTable;
+    vehicleTable.reserve(F);
+    std::transform(bucketsOfIndices.begin(),
+            bucketsOfIndices.end(),
+            std::back_inserter(vehicleTable),
+            [&](const std::vector<unsigned> &bucketOfIndices)
+            {
+                std::vector<Ride> rides;
+                rides.reserve(bucketOfIndices.size());
+                std::transform(bucketOfIndices.begin(),
+                        bucketOfIndices.end(),
+                        std::back_inserter(rides),
+                        [&](const unsigned &index) {return allRides[index];});
+                return rides;
+            });
+    return vehicleTable;
 }
 
 std::vector<std::vector<Ride>> Scorer::assignmentToSetOfRideLists(const std::vector<unsigned> assignment) const

@@ -26,11 +26,15 @@ int main(int argc, char *argv[])
     // life's too short
     GeneticAlgorithm algorithm(scorer, mutationRate, generations, populationSize, matingPopulationSize, scorer.getChromosomeSize(), scorer.getChromosomeValues());
     Chromosome bestChromosome = algorithm.run();
-    // std::cout << "Best chromosome:" << std::endl;
-    // for(const auto num : bestChromosome.getData())
-        // std::cout << num << " ";
-    // std::cout << std::endl;
-    // std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
+    std::cout << "Best chromosome:" << std::endl;
+    for(const auto &vec : bestChromosome.getData())
+    {
+        for(const auto num : vec)
+            std::cout << num << " ";
+        std::cout << ",";
+    }
+    std::cout << std::endl;
+    std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
     std::cout << scorer.getFitness(bestChromosome) << std::endl;
     return 0;
 }
