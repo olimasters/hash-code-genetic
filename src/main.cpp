@@ -17,19 +17,21 @@ int main(int argc, char *argv[])
         return 1;
     }
     Scorer scorer(createScorerFromFile(argv[1]));
-    double mutationRate = 0.05;
-    unsigned generations = 100;
-    unsigned populationSize = 100;
-    unsigned matingPopulationSize = 20;
     // TODO: tune parameters
-    // TODO: it is wrong that F and N are known about by pulling them out of scorer.  Really we should be passing in a Chromosome factory which is created with N and F
+    double mutationRate = 0.03;
+    unsigned generations = 200;
+    unsigned populationSize = 150;
+    unsigned matingPopulationSize = 30;
+    // note: it is wrong that F and N are known about by pulling them out of scorer.  Really we should be passing in a Chromosome factory which is created with N and F
+    // life's too short
     GeneticAlgorithm algorithm(scorer, mutationRate, generations, populationSize, matingPopulationSize, scorer.getChromosomeSize(), scorer.getChromosomeValues());
     Chromosome bestChromosome = algorithm.run();
-    std::cout << "Best chromosome:" << std::endl;
-    for(const auto num : bestChromosome.getData())
-        std::cout << num << " ";
-    std::cout << std::endl;
-    std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
+    // std::cout << "Best chromosome:" << std::endl;
+    // for(const auto num : bestChromosome.getData())
+        // std::cout << num << " ";
+    // std::cout << std::endl;
+    // std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
+    std::cout << scorer.getFitness(bestChromosome) << std::endl;
     return 0;
 }
 

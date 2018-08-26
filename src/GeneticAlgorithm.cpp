@@ -24,10 +24,12 @@ Chromosome GeneticAlgorithm::run()
 {
     while(generationsRemaining--)
     {
+        
         std::vector<Chromosome> matingPopulation{selectMatingPopulation()};
         breedNewPopulation(matingPopulation);
     }
-    return currentPopulation[0];
+    auto bestChromosome = std::max_element(currentPopulation.begin(), currentPopulation.end(), [&](const Chromosome &a, const Chromosome &b){return scorer.getFitness(a) < scorer.getFitness(b);});
+    return *bestChromosome;
 };
 
 std::vector<Chromosome> GeneticAlgorithm::selectMatingPopulation()
@@ -37,11 +39,15 @@ std::vector<Chromosome> GeneticAlgorithm::selectMatingPopulation()
     // TODO: replace with stochastic universal sampling or tournament
     std::vector<std::pair<Chromosome, unsigned>> populationWithFitness;
     populationWithFitness.reserve(populationSize);
+
     std::transform(currentPopulation.begin(),
             currentPopulation.end(),
             std::back_inserter(populationWithFitness),
             [&](Chromosome chromosome){return std::pair<Chromosome, unsigned>{chromosome, scorer.getFitness(chromosome)};});
-    std::sort(populationWithFitness.begin(), populationWithFitness.end(), [](const std::pair<Chromosome, unsigned> a, const std::pair<Chromosome, unsigned> b){return a.second > b.second;});
+
+    std::sort(populationWithFitness.begin(), populationWithFitness.end(), [](const std::pair<Chromosome, unsigned> &a, const std::pair<Chromosome, unsigned> &b){return a.second > b.second;});
+    
+    // std::cout << "Current maximal fitness: " << populationWithFitness[0].second << std::endl;
 
     matingPopulation.reserve(matingPopulationSize);
     for(auto it = populationWithFitness.begin(); it < populationWithFitness.begin() + matingPopulationSize; ++it)
