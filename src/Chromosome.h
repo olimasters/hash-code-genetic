@@ -10,6 +10,7 @@ class Chromosome
         void setGene(unsigned gene, unsigned position);
         unsigned getGene(unsigned position) const;
         std::vector<unsigned> getData() const;
+        void mutate(double mutationRate);
     private:
         unsigned generateGene();
         unsigned pickGene(unsigned motherGene, unsigned fatherGene);

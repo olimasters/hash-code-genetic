@@ -5,7 +5,7 @@
 class GeneticAlgorithm
 {
     public:
-        GeneticAlgorithm(const Scorer &scorer, unsigned generations, unsigned populationSize, unsigned matingPopulationSize, unsigned chromosomeSize, unsigned chromosomeValues);
+        GeneticAlgorithm(const Scorer &scorer, double mutationRate, unsigned generations, unsigned populationSize, unsigned matingPopulationSize, unsigned chromosomeSize, unsigned chromosomeValues);
         Chromosome run();
     private:
         const Scorer &scorer;
@@ -14,9 +14,11 @@ class GeneticAlgorithm
         unsigned chromosomeSize;
         unsigned chromosomeValues;
         unsigned matingPopulationSize;
+        double mutationRate;
         std::vector<Chromosome> currentPopulation;
 
         void initialisePopulation();
-        bool terminationConditionMet();
+        void breedNewPopulation(std::vector<Chromosome> &matingPopulation);
+        std::vector<Chromosome> selectMatingPopulation();
 };
 #endif

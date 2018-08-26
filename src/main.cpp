@@ -17,10 +17,17 @@ int main(int argc, char *argv[])
         return 1;
     }
     Scorer scorer(createScorerFromFile(argv[1]));
+    double mutationRate = 0.05;
     unsigned generations = 100;
-    // TODO: consider what are sensible parameters
-    GeneticAlgorithm algorithm(scorer, generations, 150, 50, 10, 4);
+    unsigned populationSize = 100;
+    unsigned matingPopulationSize = 20;
+    // TODO: tune parameters
+    // TODO: it is wrong that F and N are known about by pulling them out of scorer.  Really we should be passing in a Chromosome factory which is created with N and F
+    GeneticAlgorithm algorithm(scorer, mutationRate, generations, populationSize, matingPopulationSize, scorer.getChromosomeSize(), scorer.getChromosomeValues());
     Chromosome bestChromosome = algorithm.run();
+    for(const auto num : bestChromosome.getData())
+        std::cout << num << " ";
+    std::cout << std::endl;
     return 0;
 }
 

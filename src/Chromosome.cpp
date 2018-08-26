@@ -21,6 +21,7 @@ unsigned Chromosome::generateGene()
 
 unsigned Chromosome::pickGene(unsigned motherGene, unsigned fatherGene)
 {
+    // TODO: this ought to use a std::bernoulli_distribution(0.5)
     return coinFlipDistribution(randomNumberEngine) == 0 ? motherGene : fatherGene;
 }
 
@@ -49,4 +50,12 @@ Chromosome Chromosome::operator*(const Chromosome &otherParent)
         child.setGene(gene, position);
     }
     return child;
+}
+
+void Chromosome::mutate(double mutationRate)
+{
+    std::bernoulli_distribution mutationDistribution(mutationRate);
+    for(auto &gene : data)
+        if(mutationDistribution(randomNumberEngine))
+            gene = generateGene();
 }

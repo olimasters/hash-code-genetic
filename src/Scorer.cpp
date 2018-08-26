@@ -15,7 +15,7 @@ Scorer::Scorer(unsigned R, unsigned C, unsigned F, unsigned N, unsigned B, unsig
 {
 
 }
-unsigned Scorer::getFitness(const Chromosome &chromosome)
+unsigned Scorer::getFitness(const Chromosome &chromosome) const
 {
     std::vector<std::vector<Ride>> vehicleAllocationTable(assignmentToSetOfRideLists(chromosome.getData()));
 
@@ -29,7 +29,7 @@ unsigned Scorer::getFitness(const Chromosome &chromosome)
     return fitness;
 }
 
-unsigned Scorer::getScore(const std::vector<Ride> &lateCompletedRides, const std::vector<Ride> &timelyRides)
+unsigned Scorer::getScore(const std::vector<Ride> &lateCompletedRides, const std::vector<Ride> &timelyRides) const
 {
     std::vector<unsigned> lateScores;
     std::vector<unsigned> timelyScores;
@@ -46,7 +46,7 @@ unsigned Scorer::getScore(const std::vector<Ride> &lateCompletedRides, const std
             timelyScores.size()*B);
 }
 
-std::vector<std::vector<Ride>> Scorer::assignmentToSetOfRideLists(std::vector<unsigned> assignment)
+std::vector<std::vector<Ride>> Scorer::assignmentToSetOfRideLists(const std::vector<unsigned> assignment) const
 {
     std::vector<std::vector<Ride>> partitionOfRides(F);
     for(unsigned rideNumber = 0; rideNumber < assignment.size(); ++rideNumber)
