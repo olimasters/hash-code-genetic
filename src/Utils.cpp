@@ -11,9 +11,7 @@ std::vector<unsigned int> getLineOfIntegers(std::istream &is)
     std::getline(is, line);
     for(char &c : line)
     {
-        if(c == '\n')
-            break;
-        else if(c == ' ')
+        if(c == ' ')
         {
             result.push_back(std::stoi(number));
             number.clear();
@@ -21,6 +19,8 @@ std::vector<unsigned int> getLineOfIntegers(std::istream &is)
         else
             number += c;
     }
+    if(line.length() > 0)   // We will have missed the last number
+        result.push_back(std::stoi(number));
     return result;
 }
 
