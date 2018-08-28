@@ -5,6 +5,7 @@
 #include <vector>
 #include <numeric>
 #include <sstream>
+#include <iostream>
 
 Chromosome::Chromosome(unsigned numberOfGenes, unsigned numberOfGeneBuckets, bool randomlyInitialise) :
     numberOfGenes(numberOfGenes),
@@ -15,6 +16,24 @@ Chromosome::Chromosome(unsigned numberOfGenes, unsigned numberOfGeneBuckets, boo
 {
     if(randomlyInitialise)
         initialise();
+}
+
+// This is good for debugging
+// Could probably be replaced once the proper formatter is made?
+void Chromosome::printData() const
+{
+    for(int i = 0; i < 10; i++)
+        std::cout << "-";
+    std::cout << std::endl;
+    for(const auto &row : data)
+    {
+        for(const auto &num : row)
+            std::cout << num << " ";
+        std::cout << std::endl;
+    }
+    for(int i = 0; i < 10; i++)
+        std::cout << "-";
+    std::cout << std::endl;
 }
 
 void Chromosome::initialise()
@@ -61,12 +80,13 @@ Chromosome Chromosome::operator*(const Chromosome &otherParent)
         genesInheritedFromOtherParent.insert(childData[i].begin(), childData[i].end());
     }
     std::vector<std::vector<unsigned>> genesNeededFromMe = data;
+    const auto inheritedFromOtherParent = [&](const unsigned &gene){return genesInheritedFromOtherParent.find(gene) != genesInheritedFromOtherParent.end();};
     for(auto &geneBucket : genesNeededFromMe)
         geneBucket.erase(
                 std::remove_if(
                     geneBucket.begin(),
                     geneBucket.end(),
-                    [&](const unsigned &gene){return genesInheritedFromOtherParent.find(gene) != genesInheritedFromOtherParent.end();}
+                    inheritedFromOtherParent 
                     ),
                 geneBucket.end()
                 );
@@ -80,8 +100,7 @@ void Chromosome::mutate(double mutationRate)
 {
     std::bernoulli_distribution mutationDistribution(mutationRate);
     if(mutationDistribution(randomNumberEngine))
-         swapGenes(1,2);
-        // swapGenes(geneDistribution(randomNumberEngine), geneDistribution(randomNumberEngine));
+        swapGenes(geneDistribution(randomNumberEngine), geneDistribution(randomNumberEngine));
 }
 
 void Chromosome::swapGenes(unsigned firstIndex, unsigned secondIndex)
@@ -91,15 +110,15 @@ void Chromosome::swapGenes(unsigned firstIndex, unsigned secondIndex)
     unsigned firstBucketIndex = firstIndex - bucketSizes(data.begin(), data.begin() + firstBucketNumber);
     unsigned secondBucketIndex = secondIndex - bucketSizes(data.begin(), data.begin() + secondBucketNumber);
     unsigned tmp = data[firstBucketNumber][firstBucketIndex];
-    data[secondBucketNumber][secondBucketIndex] = data[firstBucketNumber][firstBucketIndex];
-    data[firstBucketNumber][firstBucketIndex] = tmp;
+    data[firstBucketNumber][firstBucketIndex] = data[secondBucketNumber][secondBucketIndex];
+    data[secondBucketNumber][secondBucketIndex] = tmp;
 }
 
 unsigned Chromosome::bucketSizes(std::vector<std::vector<unsigned>>::iterator start, std::vector<std::vector<unsigned>>::iterator end) const
 {
     std::vector<unsigned> sizes;
     sizes.reserve(end - start);
-    std::transform(start, end, std::back_inserter(sizes), [](const std::vector<unsigned> &bucket){return bucket.size();});
+    std::transform(start, end, std::back_inserter(sizes), [](const std::vector<unsigned> &geneBucket){return geneBucket.size();});
     return std::accumulate(sizes.begin(), sizes.end(), 0);
 }
 
@@ -115,13 +134,7 @@ unsigned Chromosome::whichBucketContains(unsigned index) const
     }
     // we should never get here
     std::ostringstream errString;
-    errString << "Could not find index" << index << " in data:\n";
-    for(const auto &vec : data)
-    {
-        errString << "{";
-        for(const auto num : vec)
-            errString << num << " ";
-        errString << "}\n";
-    }
+    errString << "Could not find index " << index << " in data\n";
+    printData();
     throw std::logic_error(errString.str());
 }

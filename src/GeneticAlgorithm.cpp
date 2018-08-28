@@ -39,8 +39,6 @@ std::vector<Chromosome> GeneticAlgorithm::selectMatingPopulation()
     // TODO: replace with stochastic universal sampling or tournament
     std::vector<std::pair<Chromosome, unsigned>> populationWithFitness;
     populationWithFitness.reserve(populationSize);
-
-    // TODO: use C++17 and std::execution::par, this will speed up hugely
     std::transform(currentPopulation.begin(),
             currentPopulation.end(),
             std::back_inserter(populationWithFitness),
@@ -48,8 +46,6 @@ std::vector<Chromosome> GeneticAlgorithm::selectMatingPopulation()
 
     std::sort(populationWithFitness.begin(), populationWithFitness.end(), [](const std::pair<Chromosome, unsigned> &a, const std::pair<Chromosome, unsigned> &b){return a.second > b.second;});
     
-    // std::cout << "Current maximal fitness: " << populationWithFitness[0].second << std::endl;
-
     matingPopulation.reserve(matingPopulationSize);
     for(auto it = populationWithFitness.begin(); it < populationWithFitness.begin() + matingPopulationSize; ++it)
         matingPopulation.push_back((*it).first);

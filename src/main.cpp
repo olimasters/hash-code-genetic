@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     }
     Scorer scorer(createScorerFromFile(argv[1]));
     // TODO: tune parameters
-    double mutationRate = 0.03;
+    double mutationRate = 1;
     unsigned generations = 200;
     unsigned populationSize = 150;
     unsigned matingPopulationSize = 30;
@@ -26,16 +26,10 @@ int main(int argc, char *argv[])
     // life's too short
     GeneticAlgorithm algorithm(scorer, mutationRate, generations, populationSize, matingPopulationSize, scorer.getChromosomeSize(), scorer.getChromosomeValues());
     Chromosome bestChromosome = algorithm.run();
-    std::cout << "Best chromosome:" << std::endl;
-    for(const auto &vec : bestChromosome.getData())
-    {
-        for(const auto num : vec)
-            std::cout << num << " ";
-        std::cout << ",";
-    }
-    std::cout << std::endl;
-    std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
-    std::cout << scorer.getFitness(bestChromosome) << std::endl;
+    // std::cout << "Best chromosome:" << std::endl;
+    // bestChromosome.printData();
+    // std::cout << "Fitness: " << scorer.getFitness(bestChromosome) << std::endl;
+     std::cout << scorer.getFitness(bestChromosome) << std::endl;
     return 0;
 }
 

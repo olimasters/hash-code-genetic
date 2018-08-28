@@ -9,6 +9,7 @@ class Chromosome
         Chromosome operator*(const Chromosome &otherParent);
         std::vector<std::vector<unsigned>> getData() const;
         void mutate(double mutationRate);
+        void printData() const;
     private:
         void initialise();
         void setData(const std::vector<std::vector<unsigned>>&);
